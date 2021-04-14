@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Lista de Categorias";
+}
+
+<div>
+    <h3>@ViewData["Title"]</h3>
+    <p> @Html.ActionLink("Nova categoria", "CategoriasCadastro", "Cadastro", new object { }, new {@class = "btn btn-outline-primary mb-3 mt-3" })</p>
+    
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+            </tr>
+        </thead>
+      
+        <tbody>
+            @foreach (Gerenciador_Series.Web.Models.Categoria cat in Model)
+            {
+            <tr>
+                <td>@cat.Nome</td>
+
+                <td>
+                    @Html.ActionLink("Editar", "CategoriasCadastro", "Cadastro", new { Id = cat.Id }, new {@class = "btn btn-success btn-sm" })
+                    <button class="btn btn-danger btn-sm" onclick="deletarFilme(@cat.Id)">Excluir</button>
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+
+    <script>
+        function deletarFilme(id) {
+            const resposta = confirm("Deseja excluir essa categoria?");
+            if (resposta) {
+                var xhr = new XMLHttpRequest()
+                const url = `/Cadastro/DeletarCategoria/${id}`;
+
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 404) {
+                        alert('Categoria não encontrado no Banco de dados')
+                    }
+
+                    if (this.readyState === 4 && this.status == 200) {
+                        alert("Categoria excluída com sucesso")
+                        location.reload()
+                    }
+                }
+                xhr.open('get', url)
+                xhr.send();
+            }
+        }
+
+    </script>
+</div>

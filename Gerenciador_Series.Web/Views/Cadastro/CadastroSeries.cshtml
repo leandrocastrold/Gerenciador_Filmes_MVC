@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Cadastrar Série";
+}
+
+<h1>@ViewBag.Title </h1>
+<br />
+<div class="m-3 form-control">
+    <form method="post">
+        
+        <div class="form-group">
+            <label>Nome</label>
+            <input class="form-control" type="text" value="@Model.Nome" name="nome" id="nome" placeholder="nome da série" />
+        </div>
+
+        <div class="form-group">
+            <label>Categoria</label>
+            <select class="form-control" name="CategoriaID">
+                <option value="">Selecione...</option>
+                @foreach (Categoria cat in ViewBag.Categorias)
+                {
+                    <option value=@cat.Id>@cat.Nome</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Quantidade de episódios</label>
+            <input class="form-control" type="number" value="@Model.NumEpisodios" name="numEpisodios" id="numEp" />
+        </div>
+           
+            <input type="submit" class="btn btn-outline-primary" value="Enviar" />
+            <input type="button" class="btn btn-outline-secondary" value="Cancelar" onclick="@("window.location.href='" + @Url.Action("Series","Filmes") + "'");" />
+
+    </form>
+</div>
+
+
+
+

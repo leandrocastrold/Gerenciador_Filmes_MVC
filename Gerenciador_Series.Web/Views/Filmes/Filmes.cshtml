@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Lista de filmes";
+}
+
+<div>
+    <h3>Lista de Filmes</h3>
+    <p> @Html.ActionLink("Adicionar novo filme", "CadastroFilmes", "Cadastro", new object { }, new {@class = "btn btn-outline-primary mb-3 mt-3" })</p>
+
+    <table class="table table-striped">
+        
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Gênero</th>
+                <th scope="col">Duração</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach (Gerenciador_Series.Web.Models.Filme filme in Model)
+            {
+            <tr>
+                <td>@filme.Nome</td>
+                <td>@filme.Categoria.Nome</td>
+                <td>@filme.Duracao</td>
+
+                <td>
+                    @Html.ActionLink("Editar", "CadastroFilmes", "Cadastro", new { Id = filme.Id }, new {@class = "btn btn-success btn-sm" })
+                    <button class="btn btn-danger btn-sm" onclick="deletarFilme(@filme.Id)">Excluir</button>
+                </td>
+            </tr>
+
+            }
+        </tbody>
+    </table>
+
+    <script>
+        function deletarFilme(id) {
+            const resposta = confirm("Deseja excluir esse filme?");
+            if (resposta) {
+                var xhr = new XMLHttpRequest()
+                const url = `/Cadastro/DeletarFilme/${id}`;
+
+                xhr.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 404) {
+                        alert('Filme não encontrado no Banco de dados')
+                    }
+
+                    if (this.readyState === 4 && this.status == 200) {
+                        alert("Filme excluído com sucesso")
+                        location.reload()
+                    }
+                }
+                xhr.open('get', url)
+                xhr.send();
+            }
+        }
+
+    </script>
+</div>

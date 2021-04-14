@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Cadastro de Categorias";
+}
+
+<h1>@ViewBag.Title</h1>
+<br />
+<div class="m-3 form-control mt3">
+
+    <form method="post">
+
+        <div class="form-group">
+            <label>Nome</label>
+            <input class="form-control" type="text" name="nome" id="nome" placeholder="nome da série"/>
+        </div>
+
+        <div>
+            <input type="submit" class="btn btn-outline-primary" value="Enviar" />
+            <input type="button" class="btn btn-outline-secondary" value="Cancelar" onclick="@("window.location.href='" + @Url.Action("Categorias","Filmes") + "'");" />
+        </div>
+
+    </form>
+</div>
+
+

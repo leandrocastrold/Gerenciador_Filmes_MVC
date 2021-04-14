@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Lista de séries";
+}
+
+<div>
+    <h3>Lista de Séries</h3>
+    <p>@Html.ActionLink("Nova Série", "CadastroSeries", "Cadastro", new object { }, new { @class = "btn btn-outline-primary mb-3 mt-3" })</p>
+    
+    <table class="table table-striped">
+    
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Gênero</th>
+                <th scope="col">Episódios</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            @foreach (Gerenciador_Series.Web.Models.Serie serie in Model)
+            {
+                <tr>
+                    <td>@serie.Nome</td>
+                    <td>@serie.Categoria.Nome</td>
+                    <td>@serie.NumEpisodios</td>
+
+                    <td>
+                        @Html.ActionLink("Editar", "CadastroSeries", "Cadastro", new { Id = serie.Id },new {@class = "btn btn-success btn-sm" })
+                        <button class="btn btn-danger btn-sm" onclick="deletarFilme(@serie.Id)">Excluir</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+
+<script>
+
+    function deletarSerie(id, nome) {
+
+        let resp = confirm(`Deseja deletar a série ${nome}?`)
+        if (resp) {
+            var xhr = new XMLHttpRequest()
+            const url = `/cadastro/RemoverSerie/${id}`
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status == 200) {
+                    alert("Série excluída com sucesso!")
+                    location.reload()
+                }
+                if (this.readyState === 4 && this.status == 404) {
+                    alert("Série não localizada na base de dados!")
+
+                }
+            }
+
+            xhr.open('get', url)
+            xhr.send()
+
+        }
+    }
+
+</script>
